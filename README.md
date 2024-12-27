@@ -2,64 +2,72 @@
 
 An AI-powered food analysis application that uses computer vision to identify and provide nutritional information for food items.
 
-## Features
+## Deployment
 
-- Real-time food detection
-- Nutritional information analysis
-- Camera integration
-- History tracking
-- Mobile-friendly design
+### Frontend (Cloudflare Pages)
 
-## Tech Stack
+1. Connect your GitHub repository to Cloudflare Pages
+2. Configure build settings:
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+   - Node.js version: 18.x
 
-- React
-- Vite
-- TailwindCSS
-- OpenAI GPT-4 Vision
-- Express.js
+### Backend (Cloudflare Workers)
 
-## Getting Started
-
-1. Clone the repository:
+1. Install Wrangler CLI:
 ```bash
-git clone [repository-url]
-cd oculus-food-vision
+npm install -g wrangler
 ```
 
-2. Install dependencies:
+2. Login to Cloudflare:
+```bash
+wrangler login
+```
+
+3. Configure environment variables:
+```bash
+wrangler secret put OPENAI_API_KEY
+```
+
+4. Deploy the worker:
+```bash
+npm run worker:deploy
+```
+
+## Local Development
+
+1. Install dependencies:
 ```bash
 npm install
 ```
 
+2. Create a `.dev.vars` file from the example:
+```bash
+cp .dev.vars.example .dev.vars
+```
+
 3. Start the development server:
 ```bash
-npm run start
+# Frontend
+npm run dev
+
+# Backend (in a separate terminal)
+npm run worker:dev
 ```
 
 ## Environment Variables
 
-Create a `.env` file in the root directory:
-
-```env
-VITE_API_URL=<openAI_api_key>
-```
+Required environment variables:
+- `OPENAI_API_KEY`: Your OpenAI API key
+- `ENVIRONMENT`: `development` or `production`
 
 ## Available Scripts
 
 - `npm run dev` - Start Vite development server
-- `npm run server` - Start Express backend server
-- `npm run start` - Start both frontend and backend
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
+- `npm run worker:dev` - Start Cloudflare Worker locally
+- `npm run worker:deploy` - Deploy Cloudflare Worker
+- `npm run pages:deploy` - Deploy to Cloudflare Pages
 
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+[Rest of README content...]

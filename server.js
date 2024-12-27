@@ -1,35 +1,45 @@
 import express from 'express';
 import cors from 'cors';
 import OpenAI from 'openai';
-import dotenv from 'dotenv';
-
-// load environment variables
-dotenv.config();
 
 const app = express();
-const port = 3001;
-// const OPENAI_API_KEY = process.env.VITE_API_URL;
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const port = process.env.PORT || 3001;
 
+// Configure CORS for production
+const allowedOrigins = [
+  'https://oculus-food-vision.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
 
-// Configure OpenAI with API key
-const openai = new OpenAI({
-  apiKey: OPENAI_API_KEY
-});
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
-// Define the model name as a constant
-const GPT4_MODEL = "gpt-4o";
-
-app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
 app.get('/', (req, res) => {
-  res.json({ message: 'Food Analysis API Server' });
+  res.json({ message: 'Oculus Food Vision API' });
 });
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
+  res.json({ 
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV
+  });
 });
 
 app.post('/api/analyze', async (req, res) => {
@@ -42,9 +52,9 @@ app.post('/api/analyze', async (req, res) => {
     }
 
     console.log('Sending request to OpenAI...');
-
+    
     const response = await openai.chat.completions.create({
-      model: GPT4_MODEL,  // Using gpt-4o model
+      model: "gpt-4o",
       messages: [
         {
           role: "user",
@@ -66,8 +76,6 @@ app.post('/api/analyze', async (req, res) => {
       temperature: 0.5
     });
 
-    console.log('OpenAI response received:', response);
-
     if (!response.choices || !response.choices[0]?.message?.content) {
       console.error('Invalid API response structure:', response);
       return res.status(500).json({ error: 'Invalid API response structure' });
@@ -86,14 +94,6 @@ app.post('/api/analyze', async (req, res) => {
       
       if (!foodData.name || typeof foodData.calories !== 'number' || !foodData.macros) {
         throw new Error('Invalid food data structure');
-      }
-
-      const macros = foodData.macros;
-      if (typeof macros.protein !== 'number' || 
-          typeof macros.carbs !== 'number' || 
-          typeof macros.fat !== 'number' || 
-          typeof macros.fiber !== 'number') {
-        throw new Error('Macro values must be numbers');
       }
 
       console.log('Parsed food data:', foodData);
@@ -116,19 +116,12 @@ app.post('/api/analyze', async (req, res) => {
   }
 });
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Something broke!' });
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on port ${port}`);
+  console.log('Environment:', process.env.NODE_ENV);
 });
 
-app.use((req, res) => {
-  res.status(404).json({ error: 'Not Found' });
-});
-
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-  console.log('Available endpoints:');
-  console.log('- GET  /');
-  console.log('- GET  /api/health');
-  console.log('- POST /api/analyze');
+// Handle errors
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled Rejection:', err);
 });

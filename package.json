@@ -1,35 +1,33 @@
 {
-  "name": "food-calorie-tracker",
+  "name": "oculus-food-vision",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "server": "node server.js",
-    "start": "concurrently \"npm run server\" \"npm run dev\"",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "worker:dev": "wrangler dev",
+    "worker:deploy": "wrangler deploy",
+    "pages:deploy": "npm run build && wrangler pages deploy dist"
   },
   "dependencies": {
-    "chart.js": "^4.3.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "openai": "^4.28.0",
     "react": "^18.2.0",
-    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
-    "react-webcam": "^7.1.1"
+    "react-webcam": "^7.1.1",
+    "react-chartjs-2": "^5.2.0",
+    "chart.js": "^4.3.0",
+    "openai": "^4.28.0",
+    "itty-router": "^4.0.0"
   },
   "devDependencies": {
-    "@heroicons/react": "^2.2.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
-    "autoprefixer": "^10.4.20",
-    "concurrently": "^8.2.2",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17",
-    "vite": "^4.4.5"
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2",
+    "vite": "^4.4.5",
+    "wrangler": "^3.0.0"
   }
 }

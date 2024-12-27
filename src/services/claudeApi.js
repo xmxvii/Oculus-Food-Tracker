@@ -1,16 +1,22 @@
+import CONFIG from './config';
+
 export async function analyzeImage(base64Image) {
   try {
-    // Ensure we have a proper data URL
-    const imageUrl = base64Image.startsWith('data:') 
-      ? base64Image 
-      : `data:image/jpeg;base64,${base64Image}`;
+    // Check if server is running
+    const healthCheck = await fetch(`${CONFIG.API_URL}/api/health`);
+    if (!healthCheck.ok) {
+      throw new Error('Server is not responding');
+    }
 
-    const response = await fetch('http://localhost:3001/api/analyze', {
+    console.log('Sending image for analysis...');
+    const response = await fetch(`${CONFIG.API_URL}/api/analyze`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ image: imageUrl })
+      body: JSON.stringify({ 
+        image: base64Image.startsWith('data:') ? base64Image : `data:image/jpeg;base64,${base64Image}`
+      })
     });
 
     if (!response.ok) {
@@ -22,19 +28,9 @@ export async function analyzeImage(base64Image) {
     const data = await response.json();
     console.log('Analysis response:', data);
     
-    // Validate response structure
     if (!data.name || typeof data.calories !== 'number' || !data.macros) {
       console.error('Invalid response format:', data);
       throw new Error('Invalid response format from food analysis');
-    }
-
-    // Validate macro values
-    const macros = data.macros;
-    if (typeof macros.protein !== 'number' || 
-        typeof macros.carbs !== 'number' || 
-        typeof macros.fat !== 'number' || 
-        typeof macros.fiber !== 'number') {
-      throw new Error('Invalid macronutrient values in response');
     }
 
     return data;
