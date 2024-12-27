@@ -77,7 +77,7 @@ export async function onRequest(context) {
 
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
-      throw new Error('No JSON found in response');
+      throw new Error('Not Hotdog');
     }
 
     const foodData = JSON.parse(jsonMatch[0]);
