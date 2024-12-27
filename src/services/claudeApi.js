@@ -1,16 +1,13 @@
-import config from '../config.js';
-
-
-export async function analyzeImage(base64Image) {
+export async function analyzeImage(base64Image, apiBaseUrl) {
   try {
     // Ensure we have a proper data URL
     const imageUrl = base64Image.startsWith('data:') 
       ? base64Image 
       : `data:image/jpeg;base64,${base64Image}`;
 
-    console.log('Making API request to:', `${config.apiBaseUrl}/analyze`);
+    console.log('Making API request to:', `${apiBaseUrl}/analyze`);
     
-    const response = await fetch(`${config.apiBaseUrl}/analyze`, {
+    const response = await fetch(`${apiBaseUrl}/analyze`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -5,7 +5,6 @@ import FoodInfo from './components/FoodInfo';
 import History from './components/History';
 import Header from './components/Header';
 import { analyzeImage } from './services/claudeApi';
-import config from './config.js';
 
 function App() {
   const [foodData, setFoodData] = useState(null);
@@ -15,9 +14,11 @@ function App() {
   const [error, setError] = useState(null);
   const [serverStatus, setServerStatus] = useState(false);
 
+  const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+
   useEffect(() => {
     // Check server status
-    fetch(`${config.apiBaseUrl}/health`)
+    fetch(`${apiBaseUrl}/health`)
       .then(response => response.ok && setServerStatus(true))
       .catch(() => setServerStatus(false));
 
@@ -25,7 +26,7 @@ function App() {
     if (savedHistory) {
       setHistory(JSON.parse(savedHistory));
     }
-  }, []);
+  }, [apiBaseUrl]);
 
   const handleImage = async (imageData) => {
     if (!serverStatus && !import.meta.env.PROD) {
@@ -39,7 +40,7 @@ function App() {
     setFoodData(null);
 
     try {
-      const analysis = await analyzeImage(imageData);
+      const analysis = await analyzeImage(imageData, apiBaseUrl);
       const foodInfo = {
         ...analysis,
         timestamp: new Date().toISOString()
