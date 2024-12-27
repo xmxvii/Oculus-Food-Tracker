@@ -1,3 +1,5 @@
+import config from './config';
+
 export async function analyzeImage(base64Image) {
   try {
     // Ensure we have a proper data URL
@@ -5,12 +7,9 @@ export async function analyzeImage(base64Image) {
       ? base64Image 
       : `data:image/jpeg;base64,${base64Image}`;
 
-    // Use relative URL for API endpoints in production
-    const apiUrl = import.meta.env.PROD 
-      ? '/api/analyze'
-      : 'http://localhost:3001/api/analyze';
-
-    const response = await fetch(apiUrl, {
+    console.log('Making API request to:', `${config.apiBaseUrl}/analyze`);
+    
+    const response = await fetch(`${config.apiBaseUrl}/analyze`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -18,14 +17,14 @@ export async function analyzeImage(base64Image) {
       body: JSON.stringify({ image: imageUrl })
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Analysis error response:', errorData);
-      throw new Error(errorData.error || 'Failed to analyze image');
+      console.error('API Error:', data);
+      throw new Error(data.error || 'Failed to analyze image');
     }
 
-    const data = await response.json();
-    console.log('Analysis response:', data);
+    console.log('API Response:', data);
     
     // Validate response structure
     if (!data.name || typeof data.calories !== 'number' || !data.macros) {
@@ -46,7 +45,7 @@ export async function analyzeImage(base64Image) {
   } catch (error) {
     console.error('Analysis error:', error);
     if (error.message === 'Failed to fetch') {
-      throw new Error('Cannot connect to server. Please ensure the server is running.');
+      throw new Error('Cannot connect to server. Please check your connection.');
     }
     throw error;
   }
