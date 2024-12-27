@@ -22,14 +22,14 @@ export async function onRequest(context) {
     }
 
     // Verify API key
-    if (!context.env.OPENAI_API_KEY) {
+    if (!context.env.OPEN_AI_KEY) {
       console.error('OpenAI API key not found in environment variables');
       throw new Error('OpenAI API key not configured');
     }
 
     // Initialize OpenAI
     const openai = new OpenAI({
-      apiKey: context.env.OPENAI_API_KEY
+      apiKey: context.env.OPEN_AI_KEY
     });
 
     // Parse request body
