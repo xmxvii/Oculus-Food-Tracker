@@ -12,21 +12,24 @@ function App() {
   const [history, setHistory] = useState([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState(null);
-  const [serverStatus, setServerStatus] = useState(false);
+  const [serverStatus, setServerStatus] = useState(true); // Set to true by default for production
 
-  const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+  // Use relative path for API endpoints in production
+  const apiBaseUrl = '/api';
 
   useEffect(() => {
-    // Check server status
-    fetch(`${apiBaseUrl}/health`)
-      .then(response => response.ok && setServerStatus(true))
-      .catch(() => setServerStatus(false));
+    // Check server status only in development
+    if (!import.meta.env.PROD) {
+      fetch(`${apiBaseUrl}/health`)
+        .then(response => response.ok && setServerStatus(true))
+        .catch(() => setServerStatus(false));
+    }
 
     const savedHistory = localStorage.getItem('foodHistory');
     if (savedHistory) {
       setHistory(JSON.parse(savedHistory));
     }
-  }, [apiBaseUrl]);
+  }, []);
 
   const handleImage = async (imageData) => {
     if (!serverStatus && !import.meta.env.PROD) {
@@ -40,7 +43,7 @@ function App() {
     setFoodData(null);
 
     try {
-      const analysis = await analyzeImage(imageData, apiBaseUrl);
+      const analysis = await analyzeImage(imageData);
       const foodInfo = {
         ...analysis,
         timestamp: new Date().toISOString()
@@ -83,11 +86,11 @@ function App() {
           <div className="flex gap-4 justify-center mb-8">
             <ImageUpload 
               onImageUpload={handleImage} 
-              disabled={isAnalyzing || (!serverStatus && !import.meta.env.PROD)} 
+              disabled={isAnalyzing} 
             />
             <Camera 
               onCapture={handleImage} 
-              disabled={isAnalyzing || (!serverStatus && !import.meta.env.PROD)} 
+              disabled={isAnalyzing} 
             />
           </div>
           

@@ -1,18 +1,17 @@
 name = "oculus-food-tracker"
 compatibility_date = "2024-01-01"
 
-[vars]
-# Example environment variable
-# MY_VARIABLE = "production_value"
+[build]
+command = "npm run build"
+dist = "dist"
+pages_build_output_dir = "dist"
 
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+[site]
+bucket = "./dist"
 
 [env.production]
-# Production-specific variables
-# MY_VARIABLE = "production_value"
+vars = { ENVIRONMENT = "production" }
 
-[env.development]
-# Development-specific variables
-# MY_VARIABLE = "development_value"
+[[routes]]
+pattern = "/api/*"
+script = "/functions/api/[segment]"

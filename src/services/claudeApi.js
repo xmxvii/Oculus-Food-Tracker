@@ -1,38 +1,28 @@
-export async function analyzeImage(base64Image, apiBaseUrl) {
+export async function analyzeImage(base64Image) {
   try {
     // Ensure we have a proper data URL
     const imageUrl = base64Image.startsWith('data:') 
       ? base64Image 
       : `data:image/jpeg;base64,${base64Image}`;
 
-    console.log('Making API request to:', `${apiBaseUrl}/analyze`);
-    
-    const response = await fetch(`${apiBaseUrl}/analyze`, {
+    const response = await fetch('/api/analyze', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      mode: 'cors',
       body: JSON.stringify({ image: imageUrl })
     });
 
-    const data = await response.json();
-
     if (!response.ok) {
-      console.error('API Error:', {
-        status: response.status,
-        statusText: response.statusText,
-        data
-      });
+      const data = await response.json();
       throw new Error(data.error || `Failed to analyze image (${response.status})`);
     }
 
-    console.log('API Response:', data);
+    const data = await response.json();
     
     // Validate response structure
     if (!data.name || typeof data.calories !== 'number' || !data.macros) {
-      console.error('Invalid response format:', data);
       throw new Error('Invalid response format from food analysis');
     }
 
@@ -48,9 +38,6 @@ export async function analyzeImage(base64Image, apiBaseUrl) {
     return data;
   } catch (error) {
     console.error('Analysis error:', error);
-    if (error.message === 'Failed to fetch') {
-      throw new Error('Cannot connect to server. Please check your connection.');
-    }
     throw error;
   }
 }
