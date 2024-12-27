@@ -1,4 +1,4 @@
-import config from './Config';
+import config from '../Config.js';
 
 export async function analyzeImage(base64Image) {
   try {
