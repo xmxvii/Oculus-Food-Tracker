@@ -27,8 +27,8 @@ export async function onRequest(context) {
       });
     }
 
-    // Check if OPENAI_API_KEY is set
-    if (!context.env.OPENAI_API_KEY) {
+    // Check if OPEN_AI_KEY is set
+    if (!context.env.OPEN_AI_KEY) {
       return new Response(JSON.stringify({ error: 'OpenAI API key not configured' }), {
         status: 500,
         headers: {
@@ -39,7 +39,7 @@ export async function onRequest(context) {
     }
 
     const openai = new OpenAI({
-      apiKey: context.env.OPENAI_API_KEY
+      apiKey: context.env.OPEN_AI_KEY
     });
 
     const body = await context.request.json();
