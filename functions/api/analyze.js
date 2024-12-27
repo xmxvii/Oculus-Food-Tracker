@@ -8,6 +8,10 @@ export async function onRequest(context) {
   };
 
   try {
+    // Log request details for debugging
+    console.log('Request method:', context.request.method);
+    console.log('Request headers:', Object.fromEntries(context.request.headers));
+
     // Handle CORS preflight
     if (context.request.method === 'OPTIONS') {
       return new Response(null, {
@@ -16,27 +20,30 @@ export async function onRequest(context) {
       });
     }
 
-    // Verify request method
-    if (context.request.method !== 'POST') {
-      throw new Error('Method not allowed');
+    // Verify request method - make case-insensitive
+    if (context.request.method.toUpperCase() !== 'POST') {
+      console.error('Invalid method:', context.request.method);
+      throw new Error(`Method ${context.request.method} not allowed. Expected POST.`);
     }
 
     // Verify API key
-    if (!context.env.OPEN_AI_KEY) {
+    if (!context.env.OPENAI_API_KEY) {
       console.error('OpenAI API key not found in environment variables');
       throw new Error('OpenAI API key not configured');
     }
 
     // Initialize OpenAI
     const openai = new OpenAI({
-      apiKey: context.env.OPEN_AI_KEY
+      apiKey: context.env.OPENAI_API_KEY
     });
 
     // Parse request body
     let body;
     try {
       body = await context.request.json();
+      console.log('Request body received:', { hasImage: !!body.image });
     } catch (e) {
+      console.error('Failed to parse request body:', e);
       throw new Error('Invalid request body');
     }
 
@@ -70,7 +77,7 @@ export async function onRequest(context) {
       temperature: 0.5
     });
 
-    console.log('OpenAI response received:', response);
+    console.log('OpenAI response received');
 
     // Validate OpenAI response
     if (!response.choices?.[0]?.message?.content) {
@@ -118,13 +125,14 @@ export async function onRequest(context) {
     
     // Determine status code based on error
     let status = 500;
-    if (error.message === 'Method not allowed') status = 405;
+    if (error.message.includes('Method not allowed')) status = 405;
     if (error.message === 'No image data provided' || 
         error.message === 'Invalid request body') status = 400;
 
     return new Response(JSON.stringify({
       error: error.message,
-      details: error.stack
+      details: error.stack,
+      timestamp: new Date().toISOString()
     }), {
       status,
       headers: {

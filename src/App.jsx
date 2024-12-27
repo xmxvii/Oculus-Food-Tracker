@@ -5,7 +5,7 @@ import FoodInfo from './components/FoodInfo';
 import History from './components/History';
 import Header from './components/Header';
 import { analyzeImage } from './services/claudeApi';
-import config from './Config';
+import config from './config';
 
 function App() {
   const [foodData, setFoodData] = useState(null);

@@ -1,4 +1,4 @@
-import config from '../Config.js';
+import config from '../config.js';
 
 export async function analyzeImage(base64Image) {
   try {
@@ -13,15 +13,21 @@ export async function analyzeImage(base64Image) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
+      mode: 'cors',
       body: JSON.stringify({ image: imageUrl })
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      console.error('API Error:', data);
-      throw new Error(data.error || 'Failed to analyze image');
+      console.error('API Error:', {
+        status: response.status,
+        statusText: response.statusText,
+        data
+      });
+      throw new Error(data.error || `Failed to analyze image (${response.status})`);
     }
 
     console.log('API Response:', data);
