@@ -1,0 +1,18 @@
+name = "oculus-food-tracker"
+compatibility_date = "2024-01-01"
+
+[vars]
+# Example environment variable
+# MY_VARIABLE = "production_value"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+[env.production]
+# Production-specific variables
+# MY_VARIABLE = "production_value"
+
+[env.development]
+# Development-specific variables
+# MY_VARIABLE = "development_value"
