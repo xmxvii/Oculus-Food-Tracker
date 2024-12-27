@@ -128,14 +128,14 @@ function Header() {
                 </svg>
               </div>
               <div className="ml-3 flex flex-col">
-                <span className="text-2xl font-bold gradient-text">Oculus</span>
+                <span className="text-2xl font-bold gradient-text">Oculus AI</span>
                 <span className="text-xs text-primary-600 -mt-1 font-medium">Shazam for food!</span>
               </div>
             </div>
 
             {/* Tagline */}
             <div className="hidden md:block ml-6 pl-6 border-l border-gray-200">
-              <span className="text-sm text-gray-500">Shazam for food!</span>
+              {/* <span className="text-sm text-gray-500">Shazam for food!</span> */}
             </div>
           </div>
 
