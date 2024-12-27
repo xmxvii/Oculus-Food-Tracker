@@ -41,7 +41,7 @@ npm run start
 Create a `.env` file in the root directory:
 
 ```env
-VITE_API_URL=http://localhost:3001
+VITE_API_URL=<openAI_api_key>
 ```
 
 ## Available Scripts

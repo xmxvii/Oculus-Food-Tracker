@@ -7,7 +7,7 @@ const port = 3001;
 
 // Configure OpenAI with API key
 const openai = new OpenAI({
-  apiKey: 'VITE_API_URL'
+  apiKey: VITE_API_URL
 });
 
 // Define the model name as a constant
