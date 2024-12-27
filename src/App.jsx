@@ -5,6 +5,7 @@ import FoodInfo from './components/FoodInfo';
 import History from './components/History';
 import Header from './components/Header';
 import { analyzeImage } from './services/claudeApi';
+import config from './Config';
 
 function App() {
   const [foodData, setFoodData] = useState(null);
@@ -15,7 +16,8 @@ function App() {
   const [serverStatus, setServerStatus] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/health')
+    // Check server status
+    fetch(`${config.apiBaseUrl}/health`)
       .then(response => response.ok && setServerStatus(true))
       .catch(() => setServerStatus(false));
 
@@ -26,7 +28,7 @@ function App() {
   }, []);
 
   const handleImage = async (imageData) => {
-    if (!serverStatus) {
+    if (!serverStatus && !import.meta.env.PROD) {
       setError('Server is not running. Please start the server first.');
       return;
     }
@@ -69,7 +71,7 @@ function App() {
             Analyze Your Food
           </h2>
 
-          {!serverStatus && (
+          {!serverStatus && !import.meta.env.PROD && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
               <p className="text-red-700 text-center">
                 ⚠️ Server is not running. Please start the server first.
@@ -78,8 +80,14 @@ function App() {
           )}
 
           <div className="flex gap-4 justify-center mb-8">
-            <ImageUpload onImageUpload={handleImage} disabled={isAnalyzing || !serverStatus} />
-            <Camera onCapture={handleImage} disabled={isAnalyzing || !serverStatus} />
+            <ImageUpload 
+              onImageUpload={handleImage} 
+              disabled={isAnalyzing || (!serverStatus && !import.meta.env.PROD)} 
+            />
+            <Camera 
+              onCapture={handleImage} 
+              disabled={isAnalyzing || (!serverStatus && !import.meta.env.PROD)} 
+            />
           </div>
           
           {isAnalyzing && (
@@ -116,7 +124,6 @@ function App() {
         }} />
       </main>
 
-      {/* Footer */}
       <footer className="mt-auto py-6 text-center text-gray-500 text-sm">
         <p>Powered by OpenAI GPT-4 Vision</p>
       </footer>

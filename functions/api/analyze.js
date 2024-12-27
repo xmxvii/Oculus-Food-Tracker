@@ -27,6 +27,17 @@ export async function onRequest(context) {
       });
     }
 
+    // Check if OPENAI_API_KEY is set
+    if (!context.env.OPENAI_API_KEY) {
+      return new Response(JSON.stringify({ error: 'OpenAI API key not configured' }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders
+        }
+      });
+    }
+
     const openai = new OpenAI({
       apiKey: context.env.OPENAI_API_KEY
     });
@@ -106,6 +117,7 @@ export async function onRequest(context) {
     });
 
   } catch (error) {
+    console.error('Analysis error:', error);
     return new Response(JSON.stringify({ 
       error: 'Failed to analyze the food image',
       details: error.message 
