@@ -1,13 +1,20 @@
 import express from 'express';
 import cors from 'cors';
 import OpenAI from 'openai';
+import dotenv from 'dotenv';
+
+// load environment variables
+dotenv.config();
 
 const app = express();
 const port = 3001;
+// const OPENAI_API_KEY = process.env.VITE_API_URL;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
 
 // Configure OpenAI with API key
 const openai = new OpenAI({
-  apiKey: VITE_API_URL
+  apiKey: OPENAI_API_KEY
 });
 
 // Define the model name as a constant
