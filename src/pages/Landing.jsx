@@ -7,7 +7,7 @@ import chickenSalad from '../assets/chicken_salad.jpg';
 
 function Landing({ navigateTo }) {
   return (
-    <div className="bg-gradient-to-b from-blue-900 to-gray-900 min-h-screen flex flex-col text-white">
+    <div className="bg-gradient-to-b from-gray-900 to-gray-700 min-h-screen flex flex-col text-white">
       {/* Header */}
       <header className="py-6 px-8">
         <h1 className="text-3xl font-extrabold tracking-tight text-center md:text-left text-primary-300">
@@ -31,27 +31,27 @@ function Landing({ navigateTo }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
               <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
                 <img
-                  src="https://via.placeholder.com/150"
+                  src="https://img.icons8.com/?size=100&id=JzdK0pjdJje5&format=png&color=000000"
                   alt="Step 1"
                   className="w-32 h-32 object-cover rounded-full shadow-lg"
                 />
-                <p className="text-gray-300">Upload an image of your food.</p>
+                <p className="text-gray-300">Take a photo, or upload an image of your food.</p>
               </div>
               <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
                 <img
-                  src="https://via.placeholder.com/150"
+                  src="https://img.icons8.com/?size=100&id=uJaWH7RDBEFn&format=png&color=000000"
                   alt="Step 2"
                   className="w-32 h-32 object-cover rounded-full shadow-lg"
                 />
-                <p className="text-gray-300">Or, take a photo using your camera.</p>
+                <p className="text-gray-300">Oculus AI analyzes for a few seconds..</p>
               </div>
               <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
                 <img
-                  src="https://via.placeholder.com/150"
+                  src="https://img.icons8.com/?size=100&id=VKwJErijPZWk&format=png&color=000000"
                   alt="Step 3"
                   className="w-32 h-32 object-cover rounded-full shadow-lg"
                 />
-                <p className="text-gray-300">Receive instant nutritional analysis.</p>
+                <p className="text-gray-300">Receive instant nutritional analysis!</p>
               </div>
             </div>
           </div>
@@ -103,13 +103,15 @@ function Landing({ navigateTo }) {
           </div>
         </div>
 
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         <h2 className="text-3xl font-semibold text-primary-100 mb-6">Become the healthiest version of yourself with a nutrition tracking solution easy enough to stick with
           </h2>
           <img 
             src={foodPic}
-            alt="Healthy Food"
-            className="w-full rounded-lg shadow-lg mb-6" 
+            alt="Aziz foodie"
+            className="w-32 h-32 object-cover rounded-full shadow-lg" 
             />
+            </div>
           <button
             className="bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105"
             onClick={() => navigateTo('food-tracker')}
