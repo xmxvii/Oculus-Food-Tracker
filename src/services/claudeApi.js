@@ -1,5 +1,6 @@
 import config from '../config.js';
 
+
 export async function analyzeImage(base64Image) {
   try {
     // Ensure we have a proper data URL
