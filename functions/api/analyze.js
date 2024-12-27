@@ -1,5 +1,3 @@
-import OpenAI from 'openai';
-
 export async function onRequest(context) {
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -8,10 +6,6 @@ export async function onRequest(context) {
   };
 
   try {
-    // Log request details for debugging
-    console.log('Request method:', context.request.method);
-    console.log('Request headers:', Object.fromEntries(context.request.headers));
-
     // Handle CORS preflight
     if (context.request.method === 'OPTIONS') {
       return new Response(null, {
@@ -20,85 +14,74 @@ export async function onRequest(context) {
       });
     }
 
-    // Verify request method - make case-insensitive
-    if (context.request.method.toUpperCase() !== 'POST') {
-      console.error('Invalid method:', context.request.method);
-      throw new Error(`Method ${context.request.method} not allowed. Expected POST.`);
+    // Verify request method
+    if (context.request.method !== 'POST') {
+      throw new Error(`Method ${context.request.method} not allowed`);
     }
 
-    // Verify API key
-    if (!context.env.OPENAI_API_KEY) {
-      console.error('OpenAI API key not found in environment variables');
+    // Get API key from environment
+    const apiKey = context.env.OPEN_AI_KEY;
+    if (!apiKey) {
       throw new Error('OpenAI API key not configured');
     }
 
-    // Initialize OpenAI
-    const openai = new OpenAI({
-      apiKey: context.env.OPENAI_API_KEY
-    });
-
     // Parse request body
-    let body;
-    try {
-      body = await context.request.json();
-      console.log('Request body received:', { hasImage: !!body.image });
-    } catch (e) {
-      console.error('Failed to parse request body:', e);
-      throw new Error('Invalid request body');
-    }
-
-    // Verify image data
+    const body = await context.request.json();
     if (!body.image) {
       throw new Error('No image data provided');
     }
 
     // Make OpenAI API request
-    console.log('Making OpenAI API request...');
-    const response = await openai.chat.completions.create({
-      model: "gpt-4-vision-preview",
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: "Analyze this food image and provide ONLY a JSON response in this exact format: {\"name\": \"food name\", \"calories\": number, \"macros\": {\"protein\": number, \"carbs\": number, \"fat\": number, \"fiber\": number}}. Ensure all numbers are numeric values, not strings. Be precise with nutritional information."
-            },
-            {
-              type: "image_url",
-              image_url: {
-                url: body.image
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                text: "Analyze this food image and provide ONLY a JSON response in this exact format: {\"name\": \"food name\", \"calories\": number, \"macros\": {\"protein\": number, \"carbs\": number, \"fat\": number, \"fiber\": number}}. Ensure all numbers are numeric values, not strings. Be precise with nutritional information."
+              },
+              {
+                type: "image_url",
+                image_url: {
+                  url: body.image
+                }
               }
-            }
-          ]
-        }
-      ],
-      max_tokens: 1000,
-      temperature: 0.5
+            ]
+          }
+        ],
+        max_tokens: 1000,
+        temperature: 0.5
+      })
     });
 
-    console.log('OpenAI response received');
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error?.message || 'OpenAI API error');
+    }
 
-    // Validate OpenAI response
-    if (!response.choices?.[0]?.message?.content) {
+    const data = await response.json();
+    
+    // Parse and validate response
+    const responseText = data.choices?.[0]?.message?.content;
+    if (!responseText) {
       throw new Error('Invalid API response structure');
     }
 
-    // Parse JSON from response
-    const responseText = response.choices[0].message.content;
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    
     if (!jsonMatch) {
       throw new Error('No JSON found in response');
     }
 
-    let foodData;
-    try {
-      foodData = JSON.parse(jsonMatch[0]);
-    } catch (e) {
-      throw new Error('Failed to parse JSON response');
-    }
-
+    const foodData = JSON.parse(jsonMatch[0]);
+    
     // Validate food data structure
     if (!foodData.name || typeof foodData.calories !== 'number' || !foodData.macros) {
       throw new Error('Invalid food data structure');
@@ -112,7 +95,6 @@ export async function onRequest(context) {
       throw new Error('Invalid macronutrient values');
     }
 
-    // Return successful response
     return new Response(JSON.stringify(foodData), {
       headers: {
         'Content-Type': 'application/json',
@@ -121,18 +103,14 @@ export async function onRequest(context) {
     });
 
   } catch (error) {
-    console.error('Error in analyze function:', error);
+    console.error('Error:', error);
     
-    // Determine status code based on error
-    let status = 500;
-    if (error.message.includes('Method not allowed')) status = 405;
-    if (error.message === 'No image data provided' || 
-        error.message === 'Invalid request body') status = 400;
+    const status = error.message.includes('API key') ? 401 : 
+                  error.message.includes('Method not allowed') ? 405 :
+                  error.message === 'No image data provided' ? 400 : 500;
 
     return new Response(JSON.stringify({
-      error: error.message,
-      details: error.stack,
-      timestamp: new Date().toISOString()
+      error: error.message
     }), {
       status,
       headers: {
