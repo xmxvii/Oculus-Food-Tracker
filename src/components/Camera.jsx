@@ -99,7 +99,7 @@ function Camera({ onCapture, disabled }) {
   }, [onCapture]);
 
   const startCountdown = useCallback(() => {
-    setCountdown(3);
+    setCountdown(0);
     const timer = setInterval(() => {
       setCountdown(prev => {
         if (prev <= 1) {
