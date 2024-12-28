@@ -1,5 +1,5 @@
 import React from 'react';
-import { PhotoIcon, CameraIcon, SparklesIcon, QueueListIcon, PresentationChartLineIcon } from '@heroicons/react/24/outline';
+import { PhotoIcon, CameraIcon, SparklesIcon, QueueListIcon, PresentationChartLineIcon, ChartPieIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 import foodPic from '../assets/food_pic.webp';
 import avocadoToast from '../assets/avocado_toast.png';
 import pasta from '../assets/pasta.jpg';
@@ -31,12 +31,12 @@ function Landing({ navigateTo }) {
                 </div>
 
                 <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
-                <QueueListIcon className="w-32 h-32 text-primary-300" />
+                <ChatBubbleLeftRightIcon className="w-32 h-32 text-primary-300" />
                 <p className="text-gray-300">Oculus AI analyzes for a few seconds..</p>
                 </div>
 
                 <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
-                <PresentationChartLineIcon className="w-32 h-32 text-primary-300" />
+                <ChartPieIcon className="w-32 h-32 text-primary-300" />
                 <p className="text-gray-300">Receive instant nutritional analysis!</p>
                 </div>
             </div>
