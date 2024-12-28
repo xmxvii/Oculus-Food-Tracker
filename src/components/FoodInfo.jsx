@@ -46,10 +46,10 @@ function FoodInfo({ food, image }) {
         <div className="space-y-6">
           <div className="bg-gray-50 rounded-lg p-4">
             <h3 className="text-lg font-semibold text-gray-700 mb-3">Macronutrients</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2 text-gray-600">
               <li className="flex justify-between items-center">
                 <span className="text-gray-600">🥩 Protein</span>
-                <span className="font-medium">{food.macros?.protein || 0}g</span> </li>
+                <span className="font-medium ">{food.macros?.protein || 0}g</span> </li>
               <li className="flex justify-between items-center">
                 <span className="text-gray-600">🌾 Carbs</span>
                 <span className="font-medium">{food.macros?.carbs || 0}g</span> </li>
