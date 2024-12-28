@@ -73,7 +73,7 @@ function Header({ navigateTo }) {
             </div>
             <div className="ml-3 flex flex-col">
               <span className="text-2xl font-bold gradient-text">Oculus AI</span>
-              <span className="text-xs text-primary-600 -mt-1 font-medium">Food Vision AI</span>
+              <span className="text-xs text-primary-600 -mt-1 font-medium">Shazam for food</span>
             </div>
           </div>
         </div>

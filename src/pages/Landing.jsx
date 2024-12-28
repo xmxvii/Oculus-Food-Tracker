@@ -8,7 +8,7 @@ function Landing({ navigateTo }) {
       <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-12">
         <div className="max-w-4xl mx-auto text-center mb-16 mt-16">
           <h1 className="text-5xl md:text-7xl font-extrabold text-emerald-300 mb-6 drop-shadow-lg">
-            AI-Powered Food Analysis
+          The fastest way to track what you eat
           </h1>
           <p className="text-lg md:text-2xl text-gray-300 mb-10">
             Discover the nutritional secrets of your meals with cutting-edge AI and computer vision technology.
