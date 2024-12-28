@@ -23,20 +23,12 @@ function FoodTracker() {
     setIsAnalyzing(true);
     setError(null);
     setFoodData(null);
+    setUploadedImage(imageData); // Store the image data
 
     try {
       const analysis = await analyzeImage(imageData);
-      const foodInfo = {
-        ...analysis,
-        timestamp: new Date().toISOString()
-      };
-
-      setFoodData(foodInfo);
-      const newHistory = [{
-        ...foodInfo,
-        image: imageData
-      }, ...history].slice(0, 10);
-      
+      setFoodData(analysis); // Update foodData directly with the analysis
+      const newHistory = [{ ...analysis, image: imageData, timestamp: new Date().toISOString() }, ...history].slice(0, 10);
       setHistory(newHistory);
       localStorage.setItem('foodHistory', JSON.stringify(newHistory));
     } catch (error) {
@@ -64,23 +56,15 @@ function FoodTracker() {
           </h2>
 
           <div className="flex flex-col md:flex-row gap-6 justify-center mb-8">
-            <ImageUpload 
-              onImageUpload={handleImage} 
-              disabled={isAnalyzing} 
-            />
-            <Camera 
-              onCapture={handleImage} 
-              disabled={isAnalyzing} 
-            />
+            <ImageUpload onImageUpload={handleImage} disabled={isAnalyzing} />
+            <Camera onCapture={handleImage} disabled={isAnalyzing} />
           </div>
-          
+
           {isAnalyzing && (
             <div className="bg-primary-900 border border-primary-700 rounded-lg p-6 mb-6 text-center">
               <div className="flex items-center justify-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mr-3"></div>
-                <p className="text-primary-300 font-medium">
-                  Analyzing your food with AI...
-                </p>
+                <p className="text-primary-300 font-medium">Analyzing your food with AI...</p>
               </div>
             </div>
           )}
@@ -88,27 +72,21 @@ function FoodTracker() {
           {error && (
             <div className="bg-red-900 border border-red-700 rounded-lg p-4 mb-6">
               <p className="text-red-300 mb-2 font-medium">{error}</p>
-              <button 
-                onClick={() => setError(null)}
-                className="bg-red-700 hover:bg-red-600 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-md transition-all"
-              >
+              <button onClick={() => setError(null)} className="bg-red-700 hover:bg-red-600 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-md transition-all">
                 Try Again
               </button>
             </div>
           )}
         </div>
-        
+
         {foodData && uploadedImage && !isAnalyzing && (
           <FoodInfo food={foodData} image={uploadedImage} />
         )}
-        
-        <History 
-          items={history} 
-          onClear={() => {
-            setHistory([]);
-            localStorage.removeItem('foodHistory');
-          }} 
-        />
+
+        <History items={history} onClear={() => {
+          setHistory([]);
+          localStorage.removeItem('foodHistory');
+        }} />
       </main>
 
       {/* Footer */}

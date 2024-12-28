@@ -4,20 +4,15 @@ import foodPic from '../assets/food_pic.webp';
 import avocadoToast from '../assets/avocado_toast.png';
 import pasta from '../assets/pasta.jpg';
 import chickenSalad from '../assets/chicken_salad.jpg';
+import sushi from '../assets/sushi.jpg';
 
 function Landing({ navigateTo }) {
   return (
     <div className="bg-gradient-to-b from-gray-900 to-gray-700 min-h-screen flex flex-col text-white">
-      {/* Header */}
-      <header className="py-6 px-8">
-        <h1 className="text-3xl font-extrabold tracking-tight text-center md:text-left text-primary-300">
-          Oculus Food Vision
-        </h1>
-      </header>
 
       {/* Main Content */}
       <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-12">
-        <div className="max-w-4xl mx-auto text-center mb-16">
+        <div className="max-w-4xl mx-auto text-center mb-16 mt-16">
           <h1 className="text-5xl md:text-7xl font-extrabold text-primary-300 mb-6 drop-shadow-lg">
             AI-Powered Food Analysis
           </h1>
@@ -99,6 +94,15 @@ function Landing({ navigateTo }) {
               />
               <p className="text-primary-300 font-bold">Avocado Toast</p>
               <p className="text-gray-400 text-sm">300 kcal</p>
+            </div>
+            <div className="bg-gray-700 rounded-lg p-4 text-center">
+              <img
+                src={sushi}
+                alt="Sushi"
+                className="w-32 h-32 object-cover rounded-full mx-auto mb-4"
+              />
+              <p className="text-primary-300 font-bold">Sushi</p>
+              <p className="text-gray-400 text-sm">450 kcal</p>
             </div>
           </div>
         </div>
