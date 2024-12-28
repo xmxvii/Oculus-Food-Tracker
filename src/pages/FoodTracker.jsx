@@ -27,6 +27,7 @@ function FoodTracker() {
 
     try {
       const analysis = await analyzeImage(imageData);
+      console.log("Received food data:", analysis); // Log the entire object
       setFoodData(analysis); // Update foodData directly with the analysis
       const newHistory = [{ ...analysis, image: imageData, timestamp: new Date().toISOString() }, ...history].slice(0, 10);
       setHistory(newHistory);

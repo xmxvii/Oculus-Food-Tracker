@@ -10,17 +10,12 @@ function FoodInfo({ food, image }) {
     datasets: [
       {
         data: [
-          food.macros.protein,
-          food.macros.carbs,
-          food.macros.fat,
-          food.macros.fiber
+          food.macros?.protein || 0, // Handle missing or undefined values
+          food.macros?.carbs || 0,
+          food.macros?.fat || 0,
+          food.macros?.fiber || 0
         ],
-        backgroundColor: [
-          '#f87171',
-          '#60a5fa',
-          '#fbbf24',
-          '#34d399'
-        ],
+        backgroundColor: ['#f87171', '#60a5fa', '#fbbf24', '#34d399'],
         borderWidth: 0
       }
     ]
@@ -31,10 +26,7 @@ function FoodInfo({ food, image }) {
       legend: {
         position: 'bottom',
         labels: {
-          font: {
-            size: 14,
-            family: 'Inter, sans-serif'
-          },
+          font: { size: 14, family: 'Inter, sans-serif' },
           padding: 20
         }
       }
@@ -46,39 +38,27 @@ function FoodInfo({ food, image }) {
     <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
       <div className="grid md:grid-cols-2 gap-6 p-6">
         <div className="space-y-4">
-          <img 
-            src={image} 
-            alt={food.name} 
-            className="w-full h-64 object-cover rounded-lg shadow-md"
-          />
+          <img src={image} alt={food.name} className="w-full h-64 object-cover rounded-lg shadow-md" />
           <h2 className="text-2xl font-bold text-gray-800">{food.name}</h2>
-          <p className="text-xl font-semibold text-primary-600">
-            {food.calories} calories
-          </p>
+          <p className="text-xl font-semibold text-primary-600">{food.calories} calories</p>
         </div>
 
         <div className="space-y-6">
           <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">
-              Macronutrients
-            </h3>
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">Macronutrients</h3>
             <ul className="space-y-2">
               <li className="flex justify-between items-center">
                 <span className="text-gray-600">🥩 Protein</span>
-                <span className="font-medium">{food.macros.protein}g</span>
-              </li>
+                <span className="font-medium">{food.macros?.protein || 0}g</span> </li>
               <li className="flex justify-between items-center">
                 <span className="text-gray-600">🌾 Carbs</span>
-                <span className="font-medium">{food.macros.carbs}g</span>
-              </li>
+                <span className="font-medium">{food.macros?.carbs || 0}g</span> </li>
               <li className="flex justify-between items-center">
                 <span className="text-gray-600">🥑 Fat</span>
-                <span className="font-medium">{food.macros.fat}g</span>
-              </li>
+                <span className="font-medium">{food.macros?.fat || 0}g</span> </li>
               <li className="flex justify-between items-center">
                 <span className="text-gray-600">🥬 Fiber</span>
-                <span className="font-medium">{food.macros.fiber}g</span>
-              </li>
+                <span className="font-medium">{food.macros?.fiber || 0}g</span> </li>
             </ul>
           </div>
 
