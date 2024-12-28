@@ -24,30 +24,21 @@ function Landing({ navigateTo }) {
           <div className="w-full mb-10">
             <h2 className="text-3xl font-semibold text-primary-100 mb-8">How it Works</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
+
               <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
-                <img
-                  src={CameraIcon}
-                  alt="Step 1"
-                  className="w-32 h-32 object-cover rounded-full shadow-lg"
-                />
+                <CameraIcon className="w-32 h-32 text-primary-300" />
                 <p className="text-gray-300">Take a photo, or upload an image of your food.</p>
-              </div>
-              <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
-                <img
-                  src={QueueListIcon}
-                  alt="Step 2"
-                  className="w-32 h-32 object-cover rounded-full shadow-lg"
-                />
+                </div>
+
+                <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
+                <QueueListIcon className="w-32 h-32 text-primary-300" />
                 <p className="text-gray-300">Oculus AI analyzes for a few seconds..</p>
-              </div>
-              <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
-                <img
-                  src={PresentationChartLineIcon}
-                  alt="Step 3"
-                  className="w-32 h-32 object-cover rounded-full shadow-lg"
-                />
+                </div>
+
+                <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
+                <PresentationChartLineIcon className="w-32 h-32 text-primary-300" />
                 <p className="text-gray-300">Receive instant nutritional analysis!</p>
-              </div>
+                </div>
             </div>
           </div>
 
