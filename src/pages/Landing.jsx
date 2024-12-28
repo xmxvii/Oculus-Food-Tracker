@@ -1,19 +1,13 @@
 import React from 'react';
-import { PhotoIcon, CameraIcon, SparklesIcon, QueueListIcon, PresentationChartLineIcon, ChartPieIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
-import foodPic from '../assets/food_pic.webp';
-import avocadoToast from '../assets/avocado_toast.png';
-import pasta from '../assets/pasta.jpg';
-import chickenSalad from '../assets/chicken_salad.jpg';
-import sushi from '../assets/sushi.jpg';
+import { Camera, Sparkles, ListChecks, LineChart, PieChart, MessageSquare } from 'lucide-react';
 
 function Landing({ navigateTo }) {
   return (
     <div className="bg-gradient-to-b from-gray-900 to-gray-700 min-h-screen flex flex-col text-white">
-
       {/* Main Content */}
       <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-12">
         <div className="max-w-4xl mx-auto text-center mb-16 mt-16">
-          <h1 className="text-5xl md:text-7xl font-extrabold text-primary-300 mb-6 drop-shadow-lg">
+          <h1 className="text-5xl md:text-7xl font-extrabold text-emerald-300 mb-6 drop-shadow-lg">
             AI-Powered Food Analysis
           </h1>
           <p className="text-lg md:text-2xl text-gray-300 mb-10">
@@ -22,97 +16,90 @@ function Landing({ navigateTo }) {
 
           {/* Steps Section */}
           <div className="w-full mb-10">
-            <h2 className="text-3xl font-semibold text-primary-100 mb-8">How it Works</h2>
+            <h2 className="text-3xl font-semibold text-emerald-100 mb-8">How it Works</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
+              <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4 transform transition-all duration-300 hover:scale-105">
+                <Camera className="w-16 h-16 text-emerald-300" />
+                <p className="text-gray-300">Take a photo or upload an image of your food</p>
+              </div>
 
-              <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
-                <CameraIcon className="w-32 h-32 text-primary-300" />
-                <p className="text-gray-300">Take a photo, or upload an image of your food.</p>
-                </div>
+              <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4 transform transition-all duration-300 hover:scale-105">
+                <Sparkles className="w-16 h-16 text-emerald-300" />
+                <p className="text-gray-300">Our AI analyzes your meal in seconds</p>
+              </div>
 
-                <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
-                <ChatBubbleLeftRightIcon className="w-32 h-32 text-primary-300" />
-                <p className="text-gray-300">Oculus AI analyzes for a few seconds..</p>
-                </div>
-
-                <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
-                <ChartPieIcon className="w-32 h-32 text-primary-300" />
-                <p className="text-gray-300">Receive instant nutritional analysis!</p>
-                </div>
+              <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4 transform transition-all duration-300 hover:scale-105">
+                <PieChart className="w-16 h-16 text-emerald-300" />
+                <p className="text-gray-300">Get instant nutritional insights</p>
+              </div>
             </div>
           </div>
 
           {/* CTA Button */}
-          <button
-            className="bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105"
-            onClick={() => navigateTo('food-tracker')}
-          >
+          <button className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105">
             Get Started
           </button>
         </div>
 
-        {/* History Section */}
-        <div className="w-full bg-gray-800 rounded-lg shadow-lg p-6 mb-16">
-          <h2 className="text-3xl font-semibold text-primary-100 mb-6">Your History</h2>
-          <p className="text-gray-300 mb-4">
-            View your previous entries and track your nutrition journey over time.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Example History Items */}
-            <div className="bg-gray-700 rounded-lg p-4 text-center">
-              <img
-                src={chickenSalad}
-                alt="Chicken Salad"
-                className="w-32 h-32 object-cover rounded-full mx-auto mb-4"
-              />
-              <p className="text-primary-300 font-bold">Chicken Salad</p>
-              <p className="text-gray-400 text-sm">500 kcal</p>
-            </div>
-            <div className="bg-gray-700 rounded-lg p-4 text-center">
-              <img
-                src={pasta}
-                alt="Pasta"
-                className="w-32 h-32 object-cover rounded-full mx-auto mb-4"
-              />
-              <p className="text-primary-300 font-bold">Pasta</p>
-              <p className="text-gray-400 text-sm">600 kcal</p>
-            </div>
-            <div className="bg-gray-700 rounded-lg p-4 text-center">
-              <img
-                src={avocadoToast}
-                alt="Avocado Toast"
-                className="w-32 h-32 object-cover rounded-full mx-auto mb-4"
-              />
-              <p className="text-primary-300 font-bold">Avocado Toast</p>
-              <p className="text-gray-400 text-sm">300 kcal</p>
-            </div>
-            <div className="bg-gray-700 rounded-lg p-4 text-center">
-              <img
-                src={sushi}
-                alt="Sushi"
-                className="w-32 h-32 object-cover rounded-full mx-auto mb-4"
-              />
-              <p className="text-primary-300 font-bold">Sushi</p>
-              <p className="text-gray-400 text-sm">450 kcal</p>
-            </div>
+        {/* Recent Analysis Section */}
+        <div className="w-full bg-gray-800 rounded-lg shadow-lg p-8 mb-16">
+          <h2 className="text-3xl font-semibold text-emerald-100 mb-6">Recent Analysis</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                name: "Fresh Salad",
+                calories: "320",
+                image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&q=80"
+              },
+              {
+                name: "Grilled Salmon",
+                calories: "450",
+                image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=300&q=80"
+              },
+              {
+                name: "Quinoa Bowl",
+                calories: "380",
+                image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=300&q=80"
+              },
+              {
+                name: "Fruit Smoothie",
+                calories: "220",
+                image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=300&q=80"
+              }
+            ].map((item, index) => (
+              <div key={index} className="bg-gray-700 rounded-lg p-4 transform transition-all duration-300 hover:scale-105">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-48 object-cover rounded-lg mb-4"
+                />
+                <p className="text-emerald-300 font-bold text-lg">{item.name}</p>
+                <p className="text-gray-400">{item.calories} kcal</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-        <h2 className="text-3xl font-semibold text-primary-100 mb-6">Become the healthiest version of yourself with a nutrition tracking solution easy enough to stick with
-          </h2>
-          <img 
-            src={foodPic}
-            alt="Aziz foodie"
-            className="w-32 h-32 object-cover rounded-full shadow-lg" 
-            />
+        {/* Features Section */}
+        <div className="w-full mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-gray-800 p-6 rounded-lg text-center">
+              <LineChart className="w-12 h-12 text-emerald-300 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Track Progress</h3>
+              <p className="text-gray-400">Monitor your nutrition journey with detailed analytics</p>
             </div>
-          <button
-            className="bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105"
-            onClick={() => navigateTo('food-tracker')}
-          >
-            Get Started
-          </button>
+            <div className="bg-gray-800 p-6 rounded-lg text-center">
+              <ListChecks className="w-12 h-12 text-emerald-300 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Meal Planning</h3>
+              <p className="text-gray-400">Create and save your favorite meal plans</p>
+            </div>
+            <div className="bg-gray-800 p-6 rounded-lg text-center">
+              <MessageSquare className="w-12 h-12 text-emerald-300 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">AI Insights</h3>
+              <p className="text-gray-400">Get personalized nutrition recommendations</p>
+            </div>
+          </div>
+        </div>
       </main>
 
       {/* Footer */}
