@@ -1,5 +1,5 @@
 import React from 'react';
-import { PhotoIcon, CameraIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { PhotoIcon, CameraIcon, SparklesIcon, QueueListIcon, PresentationChartLineIcon } from '@heroicons/react/24/outline';
 import foodPic from '../assets/food_pic.webp';
 import avocadoToast from '../assets/avocado_toast.png';
 import pasta from '../assets/pasta.jpg';
@@ -26,7 +26,7 @@ function Landing({ navigateTo }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
               <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
                 <img
-                  src="https://img.icons8.com/?size=100&id=JzdK0pjdJje5&format=png&color=000000"
+                  src={CameraIcon}
                   alt="Step 1"
                   className="w-32 h-32 object-cover rounded-full shadow-lg"
                 />
@@ -34,7 +34,7 @@ function Landing({ navigateTo }) {
               </div>
               <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
                 <img
-                  src="https://img.icons8.com/?size=100&id=uJaWH7RDBEFn&format=png&color=000000"
+                  src={QueueListIcon}
                   alt="Step 2"
                   className="w-32 h-32 object-cover rounded-full shadow-lg"
                 />
@@ -42,7 +42,7 @@ function Landing({ navigateTo }) {
               </div>
               <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center text-center gap-4">
                 <img
-                  src="https://img.icons8.com/?size=100&id=VKwJErijPZWk&format=png&color=000000"
+                  src={PresentationChartLineIcon}
                   alt="Step 3"
                   className="w-32 h-32 object-cover rounded-full shadow-lg"
                 />
